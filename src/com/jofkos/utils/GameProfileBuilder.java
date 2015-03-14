@@ -142,10 +142,8 @@ public class GameProfileBuilder {
 			String name = object.has("name") ? object.getAsJsonPrimitive("name").getAsString() : null;
 			GameProfile profile = new GameProfile(id, name);
 			
-			PropertyMap properties = object.has("properties") ? (PropertyMap) context.deserialize(object.get("properties"), PropertyMap.class) : null;
-			
-			if (properties != null) {
-				for (Entry<String, Property> prop : properties.entries()) {
+			if (object.has("properties")) {
+				for (Entry<String, Property> prop : ((PropertyMap) context.deserialize(object.get("properties"), PropertyMap.class)).entries()) {
 					profile.getProperties().put(prop.getKey(), prop.getValue());
 				}
 			}
