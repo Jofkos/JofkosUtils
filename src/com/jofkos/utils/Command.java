@@ -1,6 +1,5 @@
 package com.jofkos.utils;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -18,7 +17,7 @@ public abstract class Command extends org.bukkit.command.Command {
 	}
 	
 	public Command(Plugin plugin, String prefix, String name, String description, String usageMessage, String permission, String[] aliases) {
-		super(name, description, usageMessage, aliases == null ? ImmutableList.of() : Arrays.asList(aliases));
+		super(name, description, usageMessage, aliases == null ? ImmutableList.of() : ImmutableList.copyOf(aliases));
 		
 		if (permission != null) super.setPermission(permission);
 		super.setPermissionMessage("§cYou don't have permission to do that.");
@@ -33,7 +32,7 @@ public abstract class Command extends org.bukkit.command.Command {
 			return true;
 		}
 		try {
-			if (!this.onCommand(sender, this, commandLabel, args)) {
+			if (!this.onCommand(sender, commandLabel, args)) {
 				for (String s : usageMessage.replace("<command>", commandLabel).split("\n")) {
 					sender.sendMessage(s);
 				}
@@ -49,6 +48,6 @@ public abstract class Command extends org.bukkit.command.Command {
 		return super.tabComplete(sender, alias, args);
 	}
 	
-	public abstract boolean onCommand(CommandSender cs, org.bukkit.command.Command cmd, String alias, String[] args);
+	public abstract boolean onCommand(CommandSender cs, String alias, String[] args);
 	
 }
