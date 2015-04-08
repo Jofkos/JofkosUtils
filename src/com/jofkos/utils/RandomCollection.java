@@ -1,3 +1,6 @@
+/* 
+ * https://stackoverflow.com/q/6409791
+ */
 package com.jofkos.utils;
 
 import java.util.NavigableMap;
