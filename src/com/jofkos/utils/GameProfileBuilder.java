@@ -134,6 +134,24 @@ public class GameProfileBuilder {
 		cacheTime = time;
 	}
 	
+	/**
+	 * Serializes a gameprofile to its json-string-representation
+	 * @param profile The gameprofile
+	 * @return The gameprofile as a json-string
+	 */
+	public static String toString(GameProfile profile) {
+		return gson.toJson(profile);
+	}
+	
+	/**
+	 * Deserializes a json-string back to a gameprofile instance
+	 * @param string the json string
+	 * @return The gameprofile instance
+	 */
+	public static GameProfile fromString(String string) {
+		return gson.fromJson(string, GameProfile.class);
+	}
+	
 	private static class GameProfileSerializer implements JsonSerializer<GameProfile>, JsonDeserializer<GameProfile> {
 		
 		public GameProfile deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
