@@ -5,7 +5,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.craftbukkit.v1_8_R2.CraftServer;
 import org.bukkit.plugin.Plugin;
 
 import com.google.common.collect.ImmutableList;
@@ -22,7 +22,7 @@ public abstract class Command extends org.bukkit.command.Command {
 		if (permission != null) super.setPermission(permission);
 		super.setPermissionMessage("§cYou don't have permission to do that.");
 		
-		((SimpleCommandMap) Reflect.invoke(Bukkit.getServer(), NMSUtils.getClass("obc.CraftServer"), "getCommandMap", new Class<?>[0], new Object[0])).register(prefix == null ? plugin.getName() : prefix, this);
+		((CraftServer) Bukkit.getServer()).getCommandMap().register(prefix == null ? plugin.getName() : prefix, this);
 	}
 	
 	
