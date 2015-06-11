@@ -11,15 +11,15 @@ public abstract class PlayerCommand extends com.jofkos.utils.Command {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender cs, String alias, String[] args) {
+	public boolean onCommand(CommandSender cs, String label, String[] args) {
 		if (cs instanceof Player) {
-			return onCommand((Player) cs, alias, args); 
+			return onCommand((Player) cs, label, args); 
 		} else {
 			cs.sendMessage("§cYou must be a player to execute that command");
 		}
 		return true;
 	}
 	
-	public abstract boolean onCommand(Player player, String alias, String[] args);
+	public abstract boolean onCommand(Player player, String label, String[] args);
 	
 }

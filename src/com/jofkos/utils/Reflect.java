@@ -19,6 +19,15 @@ public class Reflect {
 			}
 			if (field == null) throw new NoSuchFieldException("No field '" + fieldName + "' found in '" + clazz.getCanonicalName() + "'");
 			
+			return setAccessible(field);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static Field setAccessible(Field field) {
+		try {
 			field.setAccessible(true);
 			
 			if (Modifier.isFinal(field.getModifiers())) {
