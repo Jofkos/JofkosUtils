@@ -1,4 +1,4 @@
-package com.jofkos.utils;
+package com.jofkos.utils.reflect;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -58,7 +58,6 @@ public class Reflect {
 		}
 		return null;
 	}
-	
 	
 	public static <T> T get(Object instance, String fieldName) {
 		return get(instance, instance.getClass(), fieldName);

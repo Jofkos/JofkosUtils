@@ -1,4 +1,4 @@
-package com.jofkos.utils;
+package com.jofkos.utils.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -52,20 +52,6 @@ public class MySQL {
 	public void queryUpdateAsync(PreparedStatement statement) {
 		executor.execute(() -> queryUpdate(statement));
 	}
-	
-	/* Update - String */
-	public void queryUpdate(String query) {
-		checkConnection();
-		try (PreparedStatement statement = conn.prepareStatement(query)) {
-			queryUpdate(statement);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void queryUpdateAsync(String statement) {
-		executor.execute(() -> queryUpdate(statement));
-	}
 
 	/* Query - Statement */
 	public ResultSet query(PreparedStatement statement) {
@@ -85,24 +71,6 @@ public class MySQL {
 		});
 	}
 	
-	/* Query - String */
-	public ResultSet query(String query) {
-		checkConnection();
-		try {
-			return query(conn.prepareStatement(query));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public void queryAsync(String statement, Consumer<ResultSet> consumer) {
-		executor.execute(() -> {
-			ResultSet result = query(statement);
-			Bukkit.getScheduler().runTask(plugin, () -> consumer.accept(result));
-		});
-	}
-	
 	/* Connection etc */
 	public PreparedStatement prepare(String query) {
 		try {
@@ -114,6 +82,7 @@ public class MySQL {
 	}
 
 	public Connection getConnection() {
+		checkConnection();
 		return this.conn;
 	}
 
@@ -129,7 +98,7 @@ public class MySQL {
 		Class.forName("com.mysql.jdbc.Driver");
 		return this.conn = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database, this.user, this.password);
 	}
-
+	
 	public void closeConnection() {
 		try {
 			this.conn.close();

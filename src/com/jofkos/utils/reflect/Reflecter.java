@@ -1,4 +1,4 @@
-package com.jofkos.utils;
+package com.jofkos.utils.reflect;
 
 public class Reflecter {
 

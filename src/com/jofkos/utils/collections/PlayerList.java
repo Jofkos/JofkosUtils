@@ -1,4 +1,4 @@
-package com.jofkos.utils;
+package com.jofkos.utils.collections;
 
 import java.util.ArrayList;
 import java.util.Arrays;

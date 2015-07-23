@@ -13,7 +13,6 @@ import java.util.function.Consumer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import com.mojang.util.UUIDTypeAdapter;
 
 public class UUIDFetcher {

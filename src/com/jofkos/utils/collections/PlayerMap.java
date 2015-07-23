@@ -1,4 +1,4 @@
-package com.jofkos.utils;
+package com.jofkos.utils.collections;
 
 import java.util.Collection;
 import java.util.HashMap;

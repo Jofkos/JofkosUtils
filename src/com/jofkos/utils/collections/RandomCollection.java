@@ -1,7 +1,7 @@
 /* 
  * https://stackoverflow.com/q/6409791
  */
-package com.jofkos.utils;
+package com.jofkos.utils.collections;
 
 import java.util.NavigableMap;
 import java.util.Random;
