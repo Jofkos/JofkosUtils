@@ -34,11 +34,10 @@ public abstract class Command<P extends JavaPlugin> extends org.bukkit.command.C
 			if (permission != null) super.setPermission(permission.replace("%pluginname%", plugin.getName()));
 			super.setPermissionMessage("§cYou don't have permission to do that.");
 			
+			((CraftServer) Bukkit.getServer()).getCommandMap().register(plugin.getName(), this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		((CraftServer) Bukkit.getServer()).getCommandMap().register(plugin.getName(), this);
 	}
 	
 	@Override

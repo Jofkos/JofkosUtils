@@ -5,7 +5,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import com.google.common.base.Objects;
 import com.jofkos.utils.reflect.Reflect;
 
 import net.minecraft.server.v1_8_R3.Entity;
