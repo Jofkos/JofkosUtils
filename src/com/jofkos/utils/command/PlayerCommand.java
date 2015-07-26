@@ -10,7 +10,7 @@ public abstract class PlayerCommand<P extends JavaPlugin> extends com.jofkos.uti
 		super(name);
 	}
 	
-	public PlayerCommand(String name, String description, String usage, String permission, String[] aliases) {
+	public PlayerCommand(String name, String description, String usage, String permission, String... aliases) {
 		super(name, description, usage, permission, aliases);
 	}
 	

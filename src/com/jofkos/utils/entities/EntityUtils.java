@@ -10,6 +10,7 @@ import com.jofkos.utils.reflect.Reflect;
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.EntityTypes;
 
+@SuppressWarnings("unchecked")
 public class EntityUtils {
 	
 	private static Map<Class<? extends Entity>, String> nameMap;
@@ -32,10 +33,22 @@ public class EntityUtils {
 					idMap = Reflect.get(field, (Object) null);
 				}
 				
+				if (nameMap != null && idMap != null) break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public static void registerEntity(Class<? extends Entity> customClass) {
+		Class<? extends Entity> nmsClass = customClass;
+		
+		while (nmsClass.getPackage() != Entity.class.getPackage()) {
+			nmsClass = (Class<? extends Entity>) nmsClass.getSuperclass();
+		}
+		
+		registerEntity(nmsClass, customClass);
 	}
 	
 	public static void registerEntity(Class<? extends Entity> nmsClass, Class<? extends Entity> customClass) {
