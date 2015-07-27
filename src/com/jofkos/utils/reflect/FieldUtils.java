@@ -1,10 +1,8 @@
-package com.jofkos.utils;
+package com.jofkos.utils.reflect;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-
-import com.jofkos.utils.reflect.Reflect;
 
 public class FieldUtils {
 	

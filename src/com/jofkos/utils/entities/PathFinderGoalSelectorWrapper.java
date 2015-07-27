@@ -6,7 +6,7 @@ import java.util.List;
 import net.minecraft.server.v1_8_R3.PathfinderGoal;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
 
-import com.jofkos.utils.FieldUtils;
+import com.jofkos.utils.reflect.FieldUtils;
 import com.jofkos.utils.reflect.Reflect;
 
 @SuppressWarnings("rawtypes")

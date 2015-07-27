@@ -1,4 +1,4 @@
-package com.jofkos.utils;
+package com.jofkos.utils.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
