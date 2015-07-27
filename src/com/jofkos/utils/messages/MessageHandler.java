@@ -51,9 +51,9 @@ public class MessageHandler {
 		
 		for (Field field : this.clazz.getDeclaredFields()) {
 			if (!Message.class.isAssignableFrom(field.getType())) continue;
-			if (section.getString(field.getName().toLowerCase()) != null) continue;
+			if (section.getString(field.getName()) != null) continue;
 			
-			section.set(field.getName().toLowerCase(), ((Message) Reflect.get(field, (Object) null)).string);
+			section.set(field.getName(), ((Message) Reflect.get(field, (Object) null)).string);
 		}
 		
 		try (BufferedWriter writer = Files.newWriter(file, StandardCharsets.UTF_8)){
@@ -72,7 +72,7 @@ public class MessageHandler {
 			
 			for (String string : section.getKeys(false)) {
 				try {
-					Field field = clazz.getDeclaredField(string.toUpperCase());
+					Field field = clazz.getDeclaredField(string);
 					if (field == null) continue;
 					Message message = Reflect.get(field, (Object) null);
 					message.setString(section.getString(string));
