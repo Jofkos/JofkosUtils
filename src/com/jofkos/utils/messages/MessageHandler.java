@@ -10,7 +10,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.google.common.io.Files;
-import com.jofkos.utils.reflect.Reflect;
 
 public class MessageHandler {
 	
@@ -50,10 +49,14 @@ public class MessageHandler {
 		if (section == null) section = config.createSection("messages");
 		
 		for (Field field : this.clazz.getDeclaredFields()) {
-			if (!Message.class.isAssignableFrom(field.getType())) continue;
-			if (section.getString(field.getName()) != null) continue;
-			
-			section.set(field.getName(), ((Message) Reflect.get(field, (Object) null)).string);
+			try { 
+				if (!Message.class.isAssignableFrom(field.getType())) continue;
+				if (section.getString(field.getName()) != null) continue;
+				
+				field.setAccessible(true);
+				
+				section.set(field.getName(), ((Message) field.get(null)).string);
+			} catch (Exception e) {}
 		}
 		
 		try (BufferedWriter writer = Files.newWriter(file, StandardCharsets.UTF_8)){
@@ -74,8 +77,10 @@ public class MessageHandler {
 				try {
 					Field field = clazz.getDeclaredField(string);
 					if (field == null) continue;
-					Message message = Reflect.get(field, (Object) null);
-					message.setString(section.getString(string));
+					
+					field.setAccessible(true);
+					
+					((Message) field.get(null)).setString(section.getString(string));
 				} catch (Exception e) {}
 			}
 			
