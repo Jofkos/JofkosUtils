@@ -5,6 +5,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,16 +15,22 @@ import com.google.common.io.Files;
 public class MessageHandler {
 	
 	public static void saveAndLoad(Class<?> clazz, File file) {
-		new MessageHandler(clazz, file).touchFile().saveDefaults().load();
+		saveAndLoad(clazz, file, RenamingPolicy.KEEP);
+	}
+	
+	public static void saveAndLoad(Class<?> clazz, File file, RenamingPolicy policy) {
+		new MessageHandler(clazz, file, policy).touchFile().saveDefaults().load();
 	}
 	
 	private FileConfiguration config;
+	private RenamingPolicy policy;
 	private Class<?> clazz;
 	private File file;
 	
-	private MessageHandler(Class<?> clazz, File file) {
+	private MessageHandler(Class<?> clazz, File file, RenamingPolicy policy) {
 		this.clazz = clazz;
 		this.file = file;
+		this.policy = policy;
 		
 		config = YamlConfiguration.loadConfiguration(file);
 		
@@ -55,7 +62,7 @@ public class MessageHandler {
 				
 				field.setAccessible(true);
 				
-				section.set(field.getName(), ((Message) field.get(null)).string);
+				section.set(policy.toSaveKey(field.getName()), ((Message) field.get(null)).string.replaceAll(ChatColor.COLOR_CHAR + "(?=[a-fk-or0-9])", "&"));
 			} catch (Exception e) {}
 		}
 		
@@ -75,12 +82,12 @@ public class MessageHandler {
 			
 			for (String string : section.getKeys(false)) {
 				try {
-					Field field = clazz.getDeclaredField(string);
+					Field field = clazz.getDeclaredField(policy.toFieldName(string));
 					if (field == null) continue;
 					
 					field.setAccessible(true);
 					
-					((Message) field.get(null)).setString(section.getString(string));
+					((Message) field.get(null)).setString(ChatColor.translateAlternateColorCodes('&', section.getString(string)));
 				} catch (Exception e) {}
 			}
 			

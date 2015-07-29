@@ -39,8 +39,8 @@ public class Message {
 		this.format = string;
 	}
 	
-	public String get(Object... objs) {
-		return String.format(format, Arrays.copyOf(objs, placeholders.length));
+	public String get(Object... placeholderValues) {
+		return String.format(format, Arrays.copyOf(placeholderValues, placeholders.length));
 	}
 	
 	@Override
