@@ -7,14 +7,18 @@ import java.util.List;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandException;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.collect.ImmutableList;
+import com.jofkos.utils.reflect.NMSUtils;
+import com.jofkos.utils.reflect.Reflect;
 
 @SuppressWarnings("unchecked")
 public abstract class Command<P extends JavaPlugin> extends org.bukkit.command.Command {
+	
+	private static final CommandMap commandMap = Reflect.get(Bukkit.getServer(), NMSUtils.getClass("obc.CraftServer"), "commandMap");
 	
 	protected P plugin;
 	
@@ -23,7 +27,7 @@ public abstract class Command<P extends JavaPlugin> extends org.bukkit.command.C
 	}
 	
 	public Command(String name, String description, String usage, String permission, String... aliases) {
-		super(name, description, usage, aliases == null || aliases.length == 0 ? ImmutableList.of() : ImmutableList.copyOf(aliases));
+		super(name, description, usage, aliases == null || aliases.length == 0 ? ImmutableList.<String>of() : ImmutableList.copyOf(aliases));
 		
 		try {
 			Type genericType = getClass().getGenericSuperclass();
@@ -31,10 +35,10 @@ public abstract class Command<P extends JavaPlugin> extends org.bukkit.command.C
 			
 			this.plugin = JavaPlugin.getPlugin((Class<P>) ((ParameterizedType) genericType).getActualTypeArguments()[0]);
 			
-			if (permission != null) super.setPermission(permission.replace("%pluginname%", plugin.getName()));
+			if (permission != null) super.setPermission(permission.replace("%pluginname%", plugin.getName().equalsIgnoreCase(name) ? "command" : plugin.getName()));
 			super.setPermissionMessage("§cYou don't have permission to do that.");
 			
-			((CraftServer) Bukkit.getServer()).getCommandMap().register(plugin.getName(), this);
+			commandMap.register(plugin.getName(), this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
