@@ -58,11 +58,13 @@ public class MessageHandler {
 		for (Field field : this.clazz.getDeclaredFields()) {
 			try { 
 				if (!Message.class.isAssignableFrom(field.getType())) continue;
-				if (section.getString(field.getName()) != null) continue;
+				String path = policy.toSaveKey(field.getName());
+				
+				if (section.getString(path) != null) continue;
 				
 				field.setAccessible(true);
 				
-				section.set(policy.toSaveKey(field.getName()), ((Message) field.get(null)).string.replaceAll(ChatColor.COLOR_CHAR + "(?=[a-fk-or0-9])", "&"));
+				section.set(path, ((Message) field.get(null)).string.replaceAll(ChatColor.COLOR_CHAR + "(?=[a-fk-or0-9])", "&"));
 			} catch (Exception e) {}
 		}
 		
