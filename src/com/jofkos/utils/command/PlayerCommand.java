@@ -1,8 +1,12 @@
 package com.jofkos.utils.command;
 
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.google.common.collect.ImmutableList;
 
 public abstract class PlayerCommand<P extends JavaPlugin> extends com.jofkos.utils.command.Command<P> {
 	
@@ -25,5 +29,17 @@ public abstract class PlayerCommand<P extends JavaPlugin> extends com.jofkos.uti
 	}
 	
 	public abstract boolean onCommand(Player player, String label, String[] args);
-
+	
+	@Override
+	public List<String> tabComplete(CommandSender sender, String label, String[] args) {
+		if (sender instanceof Player) {
+			return tabComplete((Player) sender, label, args);
+		}
+		return ImmutableList.of();
+	}
+	
+	public List<String> tabComplete(Player player, String label, String[] args) {
+		return super.tabComplete(player, label, args);
+	}
+	
 }
