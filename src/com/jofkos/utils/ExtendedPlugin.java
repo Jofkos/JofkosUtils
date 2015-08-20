@@ -9,8 +9,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.io.Files;
+import com.jofkos.utils.messages.MessageHandler;
 
-public abstract class JavaPluginUTF8 extends JavaPlugin {
+public abstract class ExtendedPlugin extends JavaPlugin {
 
 	private FileConfiguration cfg = null;
 	private File file = new File(this.getDataFolder(), "config.yml");
@@ -47,5 +48,9 @@ public abstract class JavaPluginUTF8 extends JavaPlugin {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void loadMessages(Class<?> messages) {
+		MessageHandler.saveAndLoad(messages, new File(this.getDataFolder(), "messages.yml"));
 	}
 }
