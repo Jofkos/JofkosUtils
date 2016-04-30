@@ -1,7 +1,6 @@
 package com.jofkos.utils.entities;
 
-import java.lang.reflect.Field;
-
+import com.jofkos.utils.reflect.Reflect.FieldAccessor;
 import net.minecraft.server.v1_8_R3.EntityChicken;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityLiving;
@@ -11,12 +10,11 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
-import com.jofkos.utils.entities.EntityWrapper;
 import com.jofkos.utils.reflect.Reflect;
 
 public class WASDChicken extends EntityChicken {
 
-	private static final Field jump = Reflect.getField(EntityLiving.class, "aY"); // https://github.com/Bukkit/mc-dev/blob/master/net/minecraft/server/EntityLiving.java#L1343-L1355
+	private static final FieldAccessor jump = Reflect.getField(EntityLiving.class, "aY"); // https://github.com/Bukkit/mc-dev/blob/master/net/minecraft/server/EntityLiving.java#L1343-L1355
 
 	private EntityWrapper<WASDChicken> wrapper;
 
@@ -29,25 +27,13 @@ public class WASDChicken extends EntityChicken {
 	public WASDChicken(World world) {
 		super(world);
 		
-		wrapper = new EntityWrapper<WASDChicken>(this);
+		wrapper = new EntityWrapper<>(this);
 
 		wrapper.getGoalSelector().getListB().clear();
 		wrapper.getGoalSelector().getListC().clear();
 
 		wrapper.getTargetSelector().getListB().clear();
 		wrapper.getTargetSelector().getListC().clear();
-
-		/*
-		 * this.goalSelector.a(0, new PathfinderGoalFloat(this));
-		 * this.goalSelector.a(1, new PathfinderGoalPanic(this, 1.4D));
-		 * this.goalSelector.a(2, new PathfinderGoalBreed(this, 1.0D));
-		 * this.goalSelector.a(3, new PathfinderGoalTempt(this, 1.0D,
-		 * Items.WHEAT_SEEDS, false)); this.goalSelector.a(4, new
-		 * PathfinderGoalFollowParent(this, 1.1D)); this.goalSelector.a(5, new
-		 * PathfinderGoalRandomStroll(this, 1.0D)); this.goalSelector.a(6, new
-		 * PathfinderGoalLookAtPlayer(this, EntityHuman.class, 6.0F));
-		 * this.goalSelector.a(7, new PathfinderGoalRandomLookaround(this));
-		 */
 	}
 	
 	public void spawn() {
@@ -79,7 +65,7 @@ public class WASDChicken extends EntityChicken {
 			
 			super.g(sideMot, forMot);
 			
-			boolean jump = Reflect.get(WASDChicken.jump, this.passenger);
+			boolean jump = WASDChicken.jump.get(this.passenger);
 			
 			if (jump && this.onGround) {
 				this.motY = 1.0D; // Jumpheight

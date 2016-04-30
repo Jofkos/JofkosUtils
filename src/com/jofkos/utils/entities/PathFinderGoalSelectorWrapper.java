@@ -1,21 +1,20 @@
 package com.jofkos.utils.entities;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
+import com.jofkos.utils.reflect.Reflect.FieldAccessor;
 import net.minecraft.server.v1_8_R3.PathfinderGoal;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
 
-import com.jofkos.utils.reflect.FieldUtils;
 import com.jofkos.utils.reflect.Reflect;
 
 @SuppressWarnings("rawtypes")
 public class PathFinderGoalSelectorWrapper {
 	
-	private static Field b, c;
+	private static FieldAccessor b, c;
 	
 	static {
-		FieldUtils.transferFields(PathfinderGoalSelector.class, PathFinderGoalSelectorWrapper.class);
+		Reflect.transferFields(PathfinderGoalSelector.class, PathFinderGoalSelectorWrapper.class);
 	}
 	
 	private PathfinderGoalSelector selector;
@@ -25,11 +24,11 @@ public class PathFinderGoalSelectorWrapper {
 	}
 	
 	public List getListB() {
-		return Reflect.get(b, selector);
+		return b.get(selector);
 	}
 	
 	public List getListC() {
-		return Reflect.get(c, selector);
+		return c.get(selector);
 	}
 	
 	public void a(int priority, PathfinderGoal goal) {

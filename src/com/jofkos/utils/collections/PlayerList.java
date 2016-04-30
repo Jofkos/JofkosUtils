@@ -27,7 +27,7 @@ public class PlayerList implements Iterable<Player>, ConfigurationSerializable {
 		ConfigurationSerialization.registerClass(PlayerList.class);
 	}
 	
-	private List<UUID> players = new ArrayList<UUID>();
+	private List<UUID> players = new ArrayList<>();
 
 	public PlayerList() {}
 

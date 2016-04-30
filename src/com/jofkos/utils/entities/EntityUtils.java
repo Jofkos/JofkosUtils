@@ -28,9 +28,9 @@ public class EntityUtils {
 				field.setAccessible(true);
 				
 				if (String.class.isAssignableFrom((Class<?>) genericType[1])) {
-					nameMap = Reflect.get(field, (Object) null);
+					nameMap = Reflect.getField(field).getStatic();
 				} else {
-					idMap = Reflect.get(field, (Object) null);
+					idMap = Reflect.getField(field).getStatic();
 				}
 				
 				if (nameMap != null && idMap != null) break;

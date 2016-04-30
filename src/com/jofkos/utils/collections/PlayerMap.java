@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class PlayerMap<V> implements Map<Player, V> {
 
-	private Map<UUID, V> map = new HashMap<UUID, V>();
+	private Map<UUID, V> map = new HashMap<>();
 
 	@Override
 	public int size() {
@@ -26,7 +26,7 @@ public class PlayerMap<V> implements Map<Player, V> {
 
 	@Override
 	public boolean containsKey(Object key) {
-		return key instanceof Player ? map.containsKey(((Player) key).getUniqueId()) : false;
+		return key instanceof Player && map.containsKey(((Player) key).getUniqueId());
 	}
 
 	@Override

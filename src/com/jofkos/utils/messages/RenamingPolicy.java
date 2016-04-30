@@ -6,7 +6,7 @@ public interface RenamingPolicy {
 	 * 
 	 * Naming policy that keeps the config keys and field names the same
 	 */
-	public static final RenamingPolicy KEEP = new RenamingPolicy() {
+	RenamingPolicy KEEP = new RenamingPolicy() {
 		
 		@Override
 		public String toSaveKey(String string) {
@@ -19,7 +19,7 @@ public interface RenamingPolicy {
 		}
 	};
 	
-	public static final RenamingPolicy LOWERCASE_CONSTANTS = new RenamingPolicy() {
+	RenamingPolicy LOWERCASE_CONSTANTS = new RenamingPolicy() {
 
 		@Override
 		public String toSaveKey(String string) {

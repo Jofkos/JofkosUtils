@@ -1,9 +1,7 @@
 package com.jofkos.utils.command;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
+import com.jofkos.utils.reflect.Reflect;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandException;
@@ -11,14 +9,14 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.google.common.collect.ImmutableList;
-import com.jofkos.utils.reflect.NMSUtils;
-import com.jofkos.utils.reflect.Reflect;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public abstract class Command<P extends JavaPlugin> extends org.bukkit.command.Command {
 	
-	private static final CommandMap commandMap = Reflect.get(Bukkit.getServer(), NMSUtils.getClass("obc.CraftServer"), "commandMap");
+	private static final CommandMap COMMAND_MAP = Reflect.getField(Reflect.getCoreMCClass("obc.CraftServer"), "commandMap").get(Bukkit.getServer());
 	
 	protected P plugin;
 	
@@ -38,7 +36,7 @@ public abstract class Command<P extends JavaPlugin> extends org.bukkit.command.C
 			if (permission != null) super.setPermission(permission.replace("%pluginname%", plugin.getName().equalsIgnoreCase(name) ? "command" : plugin.getName()));
 			super.setPermissionMessage("§cYou don't have permission to do that.");
 			
-			commandMap.register(plugin.getName(), this);
+			COMMAND_MAP.register(plugin.getName(), this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
