@@ -70,7 +70,7 @@ public class PlayerList implements Iterable<Player>, ConfigurationSerializable {
 	}
 
 	public List<UUID> getUUIDList() {
-		return new ArrayList<UUID>(players);
+		return new ArrayList<>(players);
 	}
 	
 	public List<String> getNameList() {
@@ -99,7 +99,7 @@ public class PlayerList implements Iterable<Player>, ConfigurationSerializable {
 
 	@Override
 	public Map<String, Object> serialize() {
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("players", this.players);
 		return map;
 	}
